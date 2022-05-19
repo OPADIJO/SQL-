@@ -1,0 +1,646 @@
+--CREATION OF VARIOUS TABLES
+
+drop table if exists child_information
+create table child_information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+chsex nvarchar (50) not null,
+agemon nvarchar (50) not null,
+chheight nvarchar (50) not null,
+chweight nvarchar (50) not null,
+marrcohab nvarchar (50) not null,
+marrcohab_age nvarchar (50) not null,
+typesite nvarchar (50) not null,
+deceased nvarchar (50) not null
+constraint pk_child_information_childid primary key(childid, round)
+)
+insert into child_information
+select 
+childid,round,chsex,agemon,chheight,chweight,marrcohab,marrcohab_age, typesite,deceased
+from ethiopia_constructed;
+insert into child_information
+select 
+childid,round,chsex,agemon,chheight,chweight,marrcohab,marrcohab_age,typesite, deceased
+from vietnam_constructed;
+insert into child_information
+select 
+childid,round,chsex,agemon,chheight,chweight,marrcohab,marrcohab_age, typesite,deceased
+from peru_constructed
+insert into child_information
+select 
+childid,round,chsex,agemon,chheight,chweight,marrcohab,marrcohab_age,typesite, deceased
+from india_constructed;
+
+drop table if exists health_information
+create table health_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+chsex nvarchar (50) not null,
+agemon nvarchar (50) not null,
+chheight nvarchar (50) not null,
+chweight nvarchar (50) not null,
+bmi nvarchar (50) not null,
+underweight nvarchar (50) not null,
+stunting nvarchar (50) not null,
+thinness nvarchar (50) not null,
+bwght nvarchar (50) not null,
+tetanus nvarchar (50) not null,
+bcg nvarchar (50) not null,
+measles nvarchar (50) not null,
+dpt nvarchar (50) not null,
+polio nvarchar (50) not null,
+hib nvarchar (50) not null,
+chhprob nvarchar (50) not null,
+chdisability nvarchar (50) not null,
+chsmoke nvarchar (50) not null,
+chalcohol nvarchar (50) not null,
+chhrel nvarchar (50) not null,
+typesite nvarchar (50) not null,
+chhealth nvarchar (50) not null
+)
+alter table health_information with check add constraint fk_childid foreign key (childid, round)
+references child_information (childid, round)
+insert into health_information
+select 
+childid,round,chsex,agemon,chheight,chweight,bmi,underweight,stunting,thinness,
+bwght,tetanus,bcg,measles,dpt,polio,hib,chhprob,chdisability,chsmoke,chalcohol,
+chhrel,typesite,chhealth
+from ethiopia_constructed;
+insert into health_information
+select 
+childid,round,chsex,agemon,chheight,chweight,bmi,underweight,stunting,thinness,
+bwght,tetanus,bcg,measles,dpt,polio,hib,chhprob,chdisability,chsmoke,chalcohol,
+chhrel,typesite,chhealth
+from peru_constructed;
+insert into health_information
+select 
+childid,round,chsex,agemon,chheight,chweight,bmi,underweight,stunting,thinness,
+bwght,tetanus,bcg,measles,dpt,polio,hib,chhprob,chdisability,chsmoke,chalcohol,
+chhrel,typesite,chhealth
+from vietnam_constructed;
+insert into health_information
+select 
+childid,round,chsex,agemon,chheight,chweight,bmi,underweight,stunting,thinness,
+bwght,tetanus,bcg,measles,dpt,polio,hib,chhprob,chdisability,chsmoke,chalcohol,
+chhrel,typesite,chhealth
+from india_constructed;
+
+drop table if exists education_Information
+create table education_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+chsex nvarchar (50) not null,
+preprim nvarchar(50) not null,
+agegr1 nvarchar(50) not null,
+enrol nvarchar(50) not null,
+engrade nvarchar(50) not null,
+entype nvarchar(50) not null,
+levlread nvarchar(50) not null,
+levlwrit nvarchar(50) not null,
+typesite nvarchar (50) not null,
+literate nvarchar(50) not null
+)
+alter table education_Information with check add constraint fk_round foreign key (childid, round)
+references child_information (childid, round)
+insert into education_Information
+select childid,round,chsex,preprim,agegr1,enrol,engrade,entype,
+levlread,levlwrit,typesite,literate
+from ethiopia_constructed
+insert into education_Information
+select childid,round,chsex,preprim,agegr1,enrol,engrade,entype,
+levlread,levlwrit,typesite,literate
+from peru_constructed
+insert into education_Information
+select childid,round,chsex,preprim,agegr1,enrol,engrade,entype,
+levlread,levlwrit,typesite,literate
+from vietnam_constructed
+insert into education_Information
+select childid,round,chsex,preprim,agegr1,enrol,engrade,entype,
+levlread,levlwrit,typesite,literate
+from india_constructed
+
+drop table if exists smoking_drinking_Information
+create table smoking_drinking_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,  
+chsmoke nvarchar(50) not null,
+chalcohol nvarchar(50) not null,
+chrephealth1 nvarchar(50) not null,
+chrephealth2 nvarchar(50) not null,
+chrephealth3 nvarchar(50) not null,
+chrephealth4 nvarchar(50) not null,
+)
+alter table smoking_drinking_Information with check add constraint fk_chsmoke foreign key (childid, round)
+references child_information (childid, round)
+insert into smoking_drinking_Information
+select childid,round,chsmoke,chalcohol,chrephealth1,chrephealth2,chrephealth3,chrephealth4
+from ethiopia_constructed
+insert into smoking_drinking_Information
+select childid,round,chsmoke,chalcohol,chrephealth1,chrephealth2,chrephealth3,chrephealth4
+from peru_constructed
+insert into smoking_drinking_Information
+select childid,round,chsmoke,chalcohol,chrephealth1,chrephealth2,chrephealth3,chrephealth4
+from vietnam_constructed
+insert into smoking_drinking_Information
+select childid,round,chsmoke,chalcohol,chrephealth1,chrephealth2,chrephealth3,chrephealth4
+from india_constructed
+
+drop table if exists time_use_Informaton
+create table time_use_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+hsleep nvarchar(50) not null,
+hcare nvarchar(50) not null,
+htask nvarchar(50) not null,
+hwork nvarchar(50) not null,
+hschool nvarchar(50) not null,
+hplay nvarchar(50) not null,
+commwork nvarchar(50) not null,
+commsch nvarchar(50) not null
+)
+alter table time_use_Information with check add constraint fk_hsleep foreign key (childid, round)
+references child_information (childid, round)
+insert into time_use_Information
+select childid,round,hsleep,hcare,htask,hwork,hschool,hplay,commwork,commsch
+from ethiopia_constructed
+insert into time_use_Information
+select childid,round,hsleep,hcare,htask,hwork,hschool,hplay,commwork,commsch
+from peru_constructed
+insert into time_use_Information
+select childid,round,hsleep,hcare,htask,hwork,hschool,hplay,commwork,commsch
+from vietnam_constructed
+insert into time_use_Information
+select childid,round,hsleep,hcare,htask,hwork,hschool,hplay,commwork,commsch
+from india_constructed
+
+drop table if exists parent_Information
+create table parent_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+dadid nvarchar(50) not null,
+dadage nvarchar(50) not null,
+dadlive nvarchar(50) not null,
+dadyrdied nvarchar(50) not null,
+dadcantread nvarchar(50) not null,
+dadedu nvarchar(50) not null,
+momid nvarchar(50) not null,
+momage nvarchar(50) not null,
+momlive nvarchar(50) not null,
+momyrdied nvarchar(50) not null,
+momcantread nvarchar(50) not null,
+momedu nvarchar(50) not null,
+shfam1 nvarchar(50) not null,
+shfam2 nvarchar(50) not null,
+shfam4 nvarchar(50) not null,
+shfam5 nvarchar(50) not null,
+shfam7 nvarchar(50) not null,
+)
+alter table parent_Information with check add constraint fk_dadid foreign key (childid, round)
+references child_information (childid, round)
+insert into parent_Information
+select childid,round,dadid,dadage,dadlive,dadyrdied,dadcantread,dadedu,momid,momage,momlive,
+momyrdied,momcantread,momedu,shfam1,shfam2,shfam4,shfam5,shfam7
+from ethiopia_constructed
+insert into parent_Information
+select childid,round,dadid,dadage,dadlive,dadyrdied,dadcantread,dadedu,momid,momage,momlive,
+momyrdied,momcantread,momedu,shfam1,shfam2,shfam4,shfam5,shfam7
+from peru_constructed
+insert into parent_Information
+select childid,round,dadid,dadage,dadlive,dadyrdied,dadcantread,dadedu,momid,momage,momlive,
+momyrdied,momcantread,momedu,shfam1,shfam2,shfam4,shfam5,shfam7
+from vietnam_constructed
+insert into parent_Information
+select childid,round,dadid,dadage,dadlive,dadyrdied,dadcantread,dadedu,momid,momage,momlive,
+momyrdied,momcantread,momedu,shfam1,shfam2,shfam4,shfam5,shfam7
+from india_constructed
+
+drop table if exists household_Information
+create table household_information
+(
+childid nvarchar(100) not null, 
+round nvarchar(100) not null,
+headid nvarchar(50) not null,
+headage nvarchar(50) not null,
+headsex nvarchar(50) not null,
+headrel nvarchar(50) not null,
+ownlandhse nvarchar(50) not null,
+ownhouse nvarchar(50) not null,
+aniany nvarchar(50) not null,
+aniothr nvarchar(50) not null,
+credit nvarchar(50) not null,
+foodsec nvarchar(50) not null,
+shcrime1 nvarchar(50) not null,
+shcrime2 nvarchar(50) not null,
+shcrime3 nvarchar(50) not null,
+shcrime4 nvarchar(50) not null,
+shcrime5 nvarchar(50) not null,
+shcrime6 nvarchar(50) not null,
+shcrime8 nvarchar(50) not null,
+shregul1 nvarchar(50) not null,
+shregul2 nvarchar(50) not null,
+shregul4 nvarchar(50) not null,
+shregul5 nvarchar(50) not null,
+shecon1 nvarchar(50) not null,
+shecon2 nvarchar(50) not null,
+shecon3 nvarchar(50) not null,
+shecon4 nvarchar(50) not null,
+shecon5 nvarchar(50) not null,
+shecon6 nvarchar(50) not null,
+shecon7 nvarchar(50) not null,
+shecon8 nvarchar(50) not null,
+shecon9 nvarchar(50) not null,
+shecon10 nvarchar(50) not null,
+shecon11 nvarchar(50) not null,
+shecon12 nvarchar(50) not null,
+shecon14 nvarchar(50) not null,
+shenv1 nvarchar(50) not null,
+shenv2 nvarchar(50) not null,
+shenv3 nvarchar(50) not null,
+shenv4 nvarchar(50) not null,
+shenv5 nvarchar(50) not null,
+shenv6 nvarchar(50) not null,
+shenv7 nvarchar(50) not null,
+shenv8 nvarchar(50) not null,
+shenv9 nvarchar(50) not null,
+shhouse1 nvarchar(50) not null,
+shhouse2 nvarchar(50) not null,
+shhouse3 nvarchar(50) not null,
+shfam1 nvarchar(50) not null,
+shfam2 nvarchar(50) not null,
+shfam3 nvarchar(50) not null,
+shfam4 nvarchar(50) not null,
+shfam5 nvarchar(50) not null,
+shfam6 nvarchar(50) not null,
+shfam7 nvarchar(50) not null,
+shfam8 nvarchar(50) not null,
+shfam10 nvarchar(50) not null,
+shfam12 nvarchar(50) not null,
+shfam13 nvarchar(50) not null,
+shfam14 nvarchar(50) not null,
+shfam18 nvarchar(50) not null,
+shother nvarchar(50) not null
+)
+alter table household_information with check add constraint fk_headid foreign key (childid, round)
+references child_information (childid, round)
+insert into household_information
+select childid,round,headid,headage,headsex,headrel,ownlandhse,ownhouse,aniany,aniothr,credit,foodsec,shcrime1,
+shcrime2,shcrime3,shcrime4,shcrime5,shcrime6,shcrime8,shregul1,shregul2,shregul4,shregul5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon6,shecon7,shecon8,shecon9,shecon10,shecon11,shecon12,shecon14,shenv1,shenv2,
+shenv3,shenv4,shenv5,shenv6,shenv7,shenv8,shenv9,shhouse1,shhouse2,shhouse3,shfam1,shfam2,shfam3,shfam4,
+shfam5,shfam6,shfam7,shfam8,shfam10,shfam12,shfam13,shfam14,shfam18,shother
+from ethiopia_constructed
+insert into household_information
+select childid,round,headid,headage,headsex,headrel,ownlandhse,ownhouse,aniany,aniothr,credit,foodsec,shcrime1,
+shcrime2,shcrime3,shcrime4,shcrime5,shcrime6,shcrime8,shregul1,shregul2,shregul4,shregul5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon6,shecon7,shecon8,shecon9,shecon10,shecon11,shecon12,shecon14,shenv1,shenv2,
+shenv3,shenv4,shenv5,shenv6,shenv7,shenv8,shenv9,shhouse1,shhouse2,shhouse3,shfam1,shfam2,shfam3,shfam4,
+shfam5,shfam6,shfam7,shfam8,shfam10,shfam12,shfam13,shfam14,shfam18,shother
+from peru_constructed
+insert into household_information
+select childid,round,headid,headage,headsex,headrel,ownlandhse,ownhouse,aniany,aniothr,credit,foodsec,shcrime1,
+shcrime2,shcrime3,shcrime4,shcrime5,shcrime6,shcrime8,shregul1,shregul2,shregul4,shregul5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon6,shecon7,shecon8,shecon9,shecon10,shecon11,shecon12,shecon14,shenv1,shenv2,
+shenv3,shenv4,shenv5,shenv6,shenv7,shenv8,shenv9,shhouse1,shhouse2,shhouse3,shfam1,shfam2,shfam3,shfam4,
+shfam5,shfam6,shfam7,shfam8,shfam10,shfam12,shfam13,shfam14,shfam18,shother
+from vietnam_constructed
+insert into household_information
+select childid,round,headid,headage,headsex,headrel,ownlandhse,ownhouse,aniany,aniothr,credit,foodsec,shcrime1,
+shcrime2,shcrime3,shcrime4,shcrime5,shcrime6,shcrime8,shregul1,shregul2,shregul4,shregul5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon6,shecon7,shecon8,shecon9,shecon10,shecon11,shecon12,shecon14,shenv1,shenv2,
+shenv3,shenv4,shenv5,shenv6,shenv7,shenv8,shenv9,shhouse1,shhouse2,shhouse3,shfam1,shfam2,shfam3,shfam4,
+shfam5,shfam6,shfam7,shfam8,shfam10,shfam12,shfam13,shfam14,shfam18,shother
+from india_constructed
+
+
+drop table if exists finance_Information
+create table finance_Information
+(
+childid nvarchar(100) not null,
+round nvarchar(100) not null,
+credit nvarchar (50) not null,
+shcrime1 nvarchar(50) not null,
+shcrime2 nvarchar(50) not null,
+shcrime3 nvarchar(50) not null,
+shcrime4 nvarchar(50) not null,
+shcrime5 nvarchar(50) not null,
+shecon1 nvarchar(50) not null,
+shecon2 nvarchar (50) not null,
+shecon3 nvarchar(50) not null,
+shecon4 nvarchar(50) not null,
+shecon5 nvarchar(50) not null,
+shecon9 nvarchar(50) not null,
+shecon10 nvarchar(50) not null
+)
+alter table finance_Information with check add constraint fk_shcrime1 foreign key (childid, round)
+references child_information (childid, round)
+
+insert into finance_Information
+select childid ,round,credit,shcrime1,shcrime2,shcrime3,shcrime4,shcrime5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon9,shecon10
+from ethiopia_constructed
+insert into finance_Information
+select childid ,round,credit,shcrime1,shcrime2,shcrime3,shcrime4,shcrime5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon9,shecon10
+from peru_constructed
+insert into finance_Information
+select childid ,round,credit,shcrime1,shcrime2,shcrime3,shcrime4,shcrime5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon9,shecon10
+from vietnam_constructed
+insert into finance_Information
+select childid ,round,credit,shcrime1,shcrime2,shcrime3,shcrime4,shcrime5,shecon1,shecon2,
+shecon3,shecon4,shecon5,shecon9,shecon10
+from india_constructed
+
+
+--REPORTS
+--EFFFECT OF EDUCATION 
+SELECT childid, round, chsex,
+CASE WHEN chsex = 1 THEN 'Male'
+	 ELSE 'FEMALE'
+	 END AS GENDER,
+typesite,
+CASE WHEN typesite = 1 THEN 'URBAN'
+	WHEN typesite = 2 THEN  'RURAL'
+	ELSE 'N/A'
+	END AS AREA_OF_RECIDENCE,
+preprim,
+CASE WHEN preprim = 0 THEN 'NO'
+	 WHEN preprim = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'PRE-PRIMARY SCHOOL',
+agegr1,enrol,entype,
+CASE WHEN entype = 1 THEN 'PRIVATE'
+	 WHEN entype = 2 THEN 'PUBLIC(PART-FUNDED)'
+	 WHEN entype = 3 THEN 'COMMUNITY(NGO/CHARITY/RELGIOUS)'
+	 WHEN entype = 5 THEN 'OTHERS'
+	 WHEN entype = 77 THEN 'NOT KNOWN'
+	 WHEN entype = 79 THEN 'EFUSED TO ANSWER'
+	 ELSE 'N/A '
+	 END AS 'CURRENTLY ENROLLED IN SCHOOL',
+literate, 
+CASE WHEN literate = 0 THEN  'NO'
+	 ELSE 'YES'
+	 END AS 'CHILD CAN READ AND WRITE',
+levlread,
+CASE WHEN levlread = 1 THEN 'CANT READ ANYTHING'
+	 WHEN levlread = 2 THEN 'CAN READ LETTERS' 
+	 WHEN levlread = 3 THEN 'CANT READ WORD'
+	 ELSE 'CAN READ SENTENCE'
+	 END AS 'CHILD READING LEVEL',
+levlwrit,
+CASE WHEN levlwrit = 1 THEN 'CANT WRITE ANYTHING'
+	 WHEN levlwrit = 2 THEN 'CAN WRITE WITH ERROR' 
+	 WHEN levlwrit = 3 THEN 'CAN WRITE ITHOUT DIFFICULY/ERROR'
+	 ELSE 'N/A'
+	 END AS 'CHILD WRITING LEVEL'
+
+FROM [dbo].[education_Information]
+
+--EFFECT OF HOUSEING STATUS
+SELECT childid, round,headid,headrel,headsex,headrel,
+CASE WHEN headrel = 0 THEN 'YL CHILD'
+	 WHEN headrel = 1 THEN 'BIOLOGICAL PARENT'
+	 WHEN headrel = 2 THEN 'NON-BIOLOGICAL'
+	 WHEN headrel = 3 THEN 'GRANDPARENT'
+	 WHEN headrel = 4 THEN 'UNCLE/AUNT'
+	 WHEN headrel = 5 THEN 'SIBLING'
+	 WHEN headrel = 6 THEN 'OTHER(RELATIVE)'
+	 WHEN headrel = 7 THEN 'OTHER(NONRELATIVE)'
+	 WHEN headrel = 8 THEN 'PARTNER/SPOUSE OF YL CHILD'
+	 ELSE 'FATHER/MOTHER-IN-LAW'	  
+	 END AS 'HOUSEHOLD HEAD RELATIONSHIP TO YL CHILD',
+ownlandhse,
+CASE WHEN ownlandhse = 0 THEN 'NO'
+	 WHEN ownlandhse = 1 THEN 'YES'
+ELSE 'N/A'
+END AS 'HOUSEHOLD OWNS LAND WHERE HOSUE IS ON',
+ownhouse, 
+CASE WHEN ownhouse = 0 THEN 'NO'
+	 WHEN ownhouse = 1 THEN 'YES'
+ELSE 'N/A'
+END AS 'HOUSEHOLD OWNS  HOSUE',
+foodsec,
+CASE WHEN foodsec =  1 THEN 'ALWAYS EAT ENOUGH OF WHAT WE WANT'
+	 WHEN foodsec =  2 THEN 'ALWAYS EAT ENOUGH BUT NOT WHAT WE WANT'
+	 WHEN foodsec =  3 THEN 'SOMETIMES DONT ENOUGH '
+	  WHEN foodsec =  3 THEN 'FREQUENTLY DO NOT EAT ENOUGH'
+	  ELSE 'N/A'
+	 END AS 'FOOD SITUATION (PAST 12MONTHS)',
+shhouse2,
+CASE WHEN shhouse2 = 0 THEN 'NO'
+	 WHEN shhouse2 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'HOUSE COLLAPSE',
+shhouse3,
+CASE WHEN shhouse3 = 0 THEN 'NO'
+	 WHEN shhouse3 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'FIRE/COLLAPSE OF BUILDING'
+FROM [dbo].[household_information]
+
+
+--EFFECT OF FINANCE 
+SELECT childid,round,credit,
+CASE WHEN credit = 0 THEN 'NO'
+	 WHEN credit = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'OBAINED CREDIT/LOAN',
+shecon1,
+CASE WHEN shecon1 = 0 THEN 'NO'
+	 WHEN shecon1 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'iNCREASE IN INPUT PRICE',
+shecon2,
+CASE WHEN shecon2 = 0 THEN 'NO'
+	 WHEN shecon2 = 1 THEN  'YES'
+	 ELSE 'N/A'
+	 END AS 'DECREASE IN OUTPUT PRICE',
+shecon3,
+CASE WHEN shecon3 = 0 THEN 'NO'
+	 WHEN shecon3 = 1 THEN  'YES'
+	 ELSE 'N/A'
+	 END AS 'DEATH OF LIVESTOCK',
+shecon4,
+CASE WHEN shecon4 = 0 THEN 'NO'
+	 WHEN shecon4 = 1 THEN'YES'
+	 ELSE 'N/A'
+	 END AS 'COSURE OF PLACE OF EMPLOYMENT',
+shecon5,
+CASE WHEN shecon5 = 0 THEN 'NO'
+	 WHEN shecon5 = 1 THEN  'YES'
+	 ELSE 'N/A'
+	 END AS 'LOSS OF JOB',
+shecon10,
+CASE WHEN shecon10 = 0 THEN 'NO'
+	 WHEN shecon10 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'CONFISTICATION OF ASSETS',
+shcrime1,
+CASE WHEN shcrime1 = 0 THEN 'NO'
+	 WHEN shcrime1 = 1 THEN'YES'
+	 ELSE 'N/A'
+	 END AS 'DESTRUCTION/THEFT OF PRODUCTION TOOL',
+shcrime2,
+CASE WHEN shcrime2 = 0 THEN 'NO'
+	 WHEN shcrime2 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'THEFT OF CASH',
+shcrime3,
+CASE WHEN shcrime3 = 0 THEN 'NO'
+	 WHEN shcrime3 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'THEFT OF CROP',
+shcrime4,
+CASE WHEN shcrime4 = 0 THEN 'NO'
+	 WHEN shcrime4 = 1 THEN  'YES'
+	 ELSE 'N/A'
+	 END AS 'THEFT OF LIVESTOCK'
+FROM [dbo].[finance_Information]
+
+--Parental influence and family stability 
+SELECT childid,round,shfam1,
+CASE WHEN shfam1 = 0 THEN 'NO'
+	 ELSE 'YES'
+	 END AS 'DEATH OF FATHER',
+shfam2,
+CASE WHEN shfam2 = 0 THEN 'NO'
+	 ELSE 'YES'
+	 END AS 'DEATH OF MOTHER',
+shfam4,
+CASE WHEN shfam4 = 0 THEN 'NO'
+	 WHEN shfam4 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'ILLNESS OF FATHER',
+shfam5,
+CASE WHEN shfam5 = 0 THEN 'NO'
+	 WHEN shfam5 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'ILLNESS OF MOTHER',
+shfam7,
+CASE WHEN shfam7 = 0 THEN 'NO'
+	 WHEN shfam7 = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'DIVORCE/SEPARATION',
+dadlive,
+CASE WHEN dadlive = 1 THEN 'LIVS IN THE HOUSEHOLD'
+	 WHEN dadlive = 2 THEN 'DOES NOT LIVE IN THE HOUSEHOLD'
+	 ELSE 'HAS DIED'
+	 END AS 'LOCATION OF YL CHILD FATHER',
+dadcantread,
+CASE WHEN dadcantread = 0 THEN 'NO'
+	 WHEN dadcantread = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'FATHER CANT READ',
+dadedu,
+CASE WHEN dadedu = 0 THEN 'NONE'
+	 WHEN dadedu = 1 THEN 'GRADE 1'
+	 WHEN dadedu = 2 THEN 'GRADE 2'
+	 WHEN dadedu = 3 THEN 'GRADE 3'
+	 WHEN dadedu = 4 THEN 'GRADE 4'
+	 WHEN dadedu = 5 THEN 'GRADE 5'
+	 WHEN dadedu = 6 THEN 'GRADE 6'
+	 WHEN dadedu = 7 THEN 'GRADE 7'
+	 WHEN dadedu = 8 THEN 'GRADE 8'
+	 WHEN dadedu = 9 THEN 'GRADE 9'
+	 WHEN dadedu = 10 THEN 'GRADE 10'
+	 WHEN dadedu = 11 THEN 'GRADE 11'
+	 WHEN dadedu = 12 THEN 'GRADE 12'
+	 WHEN dadedu = 13 THEN 'POST-SECONDARY/VOCATONAL'
+	 WHEN dadedu = 14 THEN 'UNIVERSITY'
+	 WHEN dadedu = 15 THEN 'MASTERS, DOCTORATE'
+	 WHEN dadedu = 28 THEN 'ADULT LITERACY'
+	 WHEN dadedu = 29 THEN 'RELIGIOUS EDUCATION'
+	 ELSE 'OTHER'
+	 END AS 'FATHERS LEVEL OF EDUCATON',
+momlive,
+CASE WHEN momlive = 1 THEN 'LIVS IN THE HOUSEHOLD'
+	 WHEN momlive = 2 THEN 'DOES NOT LIVE IN THE HOUSEHOLD'
+	 ELSE 'HAS DIED'
+	 END AS 'LOCATION OF YL CHILD MOTHER',
+momcantread,
+CASE WHEN momcantread = 0 THEN 'NO'
+	 WHEN momcantread = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'MOTHER CANT READ',
+momedu,
+CASE WHEN momedu = 0 THEN 'NONE'
+	 WHEN momedu = 1 THEN 'GRADE 1'
+	 WHEN momedu = 2 THEN 'GRADE 2'
+	 WHEN momedu = 3 THEN 'GRADE 3'
+	 WHEN momedu = 4 THEN 'GRADE 4'
+	 WHEN momedu = 5 THEN 'GRADE 5'
+	 WHEN momedu = 6 THEN 'GRADE 6'
+	 WHEN momedu = 7 THEN 'GRADE 7'
+	 WHEN momedu = 8 THEN 'GRADE 8'
+	 WHEN momedu = 9 THEN 'GRADE 9'
+	 WHEN momedu = 10 THEN 'GRADE 10'
+	 WHEN momedu = 11 THEN 'GRADE 11'
+	 WHEN momedu = 12 THEN 'GRADE 12'
+	 WHEN momedu = 13 THEN 'POST-SECONDARY/VOCATONAL'
+	 WHEN momedu = 14 THEN 'UNIVERSITY'
+	 WHEN momedu = 15 THEN 'MASTERS, DOCTORATE'
+	 WHEN momedu = 28 THEN 'ADULT LITERACY'
+	 WHEN momedu = 29 THEN 'RELIGIOUS EDUCATION'
+	 ELSE 'OTHER'
+	 END AS 'MOTHERS LEVEL OF EDUCATON'
+FROM [dbo].[parent_Information]
+
+--health status.
+SELECT childid,round,chsex,
+CASE WHEN chsex = 1 THEN 'MALE'
+	 WHEN chsex = 2 THEN 'FEMALE'
+	 ELSE 'N/A'
+	 END AS 'SEX',
+underweight, 
+CASE WHEN underweight = 0 THEN 'NOT UNDERWEIGHT'
+	 WHEN underweight = 1 THEN 'MODERATELY UNDERWEIGHT'
+	 WHEN underweight = 2 THEN 'SEVERLY UNDERWEIGHT'
+	 ELSE 'N/A'
+	 END AS 'LOW WEIGHT FOR AGE',
+stunting,
+CASE WHEN  stunting = 0 THEN 'NOT STUNTED'
+	 WHEN stunting = 1 THEN 'MODERATELY STUNTED'
+	 WHEN stunting = 2 THEN 'SEVERELY STUNTED'
+	 ELSE 'N/A'
+	 END AS 'SHORT HEIGHT F0R AGE',
+thinness,
+CASE WHEN thinness = 0 THEN 'NOT THIN'
+	 WHEN thinness = 1 THEN 'MODERATELY THIN'
+	 WHEN thinness = 2 THEN 'SEVERELY THIN'
+	 ELSE 'N/A'
+	 END AS 'LOW BMI FOR AGE',
+dpt,
+CASE WHEN dpt = 0 THEN 'NO'
+	WHEN dpt = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'CHILD RECEIVED VACCINATION AGAINST DPT',
+polio,
+CASE WHEN polio = 0 THEN 'NO'
+	 WHEN polio = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'CHILD RECEIVED VACCINATION AGAINST POLIO',
+hib,
+CASE WHEN hib = 0 THEN 'NO'
+	 WHEN hib = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'CHILD RECEIVED VACCINATION AGAINST HIB',
+chhprob,
+CASE WHEN chhprob = 0 THEN 'NO'
+	 WHEN chhprob = 1 THEN 'YES'
+	 ELSE 'N/A'
+	 END AS 'CHILD HAS LONG TERM HEALTH PROBLEM',
+chhealth,
+CASE WHEN chhealth = 1 THEN 'VERY POOR'
+	 WHEN chhealth = 2 THEN 'POOR'
+	 WHEN chhealth = 3 THEN 'AVERAGE'
+	 WHEN chhealth = 4 THEN 'GOOD'
+	 WHEN chhealth = 5 THEN 'VERY GOOD'
+	ELSE 'N/A'
+	END AS 'GENERAL HEALTH'
+FROM [dbo].[health_Information]

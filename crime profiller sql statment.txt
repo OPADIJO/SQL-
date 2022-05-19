@@ -1,0 +1,101 @@
+-- merge all the crime fles from january 2017 til decemner 2018 together and save itinto a new table
+SELECT *
+INTO ALL_STREET_FILE
+FROM
+(SELECT * FROM [dbo].[2017-01-greater-manchester-street]
+UNION ALL 
+SELECT * FROM [dbo].[2017-02-greater-manchester-street] 
+UNION ALL 
+SELECT * FROM  [dbo].[2017-03-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-04-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-05-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-06-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-07-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-08-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-09-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-10-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-11-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2017-12-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-01-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-02-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-03-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-04-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-05-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-06-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-07-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-08-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-09-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-10-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-11-greater-manchester-street]
+UNION ALL 
+SELECT * FROM  [dbo].[2018-12-greater-manchester-street]
+)a
+
+--ADD PRIMARY KEY
+ALTER TABLE [dbo].[ALL_STREET_FILE]
+ADD ID INT IDENTITY;
+
+ALTER TABLE [dbo].[ALL_STREET_FILE]
+ADD CONSTRAINT PK_ID PRIMARY KEY NONCLUSTERED(ID);
+GO
+
+--ADD A NEW COLUMN FOR GEOGRAPHY POINTS
+ALTER TABLE [dbo].[ALL_STREET_FILE]
+ADD [Geolocation] GEOGRAPHY
+
+--FILL THE GEOGRAPHY POINTS WITH THE LATITUDE AND LONGITUDE VALUES.
+UPDATE [dbo].[ALL_STREET_FILE]
+SET [Geolocation] = GEOGRAPHY::Point([Latitude],[Longitude],4326)
+WHERE [Longitude] IS NOT NULL
+AND [Latitude] IS NOT NULL
+AND CAST ([Latitude] AS DECIMAL(10,6)) BETWEEN -90 AND 90
+AND CAST ([Longitude]AS DECIMAL(10,6)) BETWEEN -90 AND 90
+
+--JOIN THE CRIME DATASET AND THE LSOA DATA
+SELECT C.*, L.*
+FROM [dbo].[ALL_STREET_FILE] AS C
+INNER JOIN [dbo].[LSOA_MID_PERSON_2020] AS L
+ON C.[LSOA code] = L.[LSOA Code]
+
+--FILTER FOR VEHICLE CRIMES IN GREATER MANCHESTER 
+CREATE VIEW VEHICLE_CRIME 
+WITH SCHEMABINDING AS
+SELECT C.[ID], C.[Geolocation], L.[All Ages], L.[LSOA Name]
+FROM [dbo].[ALL_STREET_FILE] AS C
+INNER JOIN [dbo].[LSOA_MID_PERSON_2020] AS L
+ON C.[LSOA code] = L.[LSOA Code]
+WHERE C.[Crime type] = 'VEHICLE CRIME'
+
+--FILTER FOR ANTISOCIAL BEHAVIOUR IN SALFORD
+CREATE VIEW ANTISOCIAL 
+WITH SCHEMABINDING AS
+SELECT C.[ID], C.[Geolocation], L.[All Ages], L.[LSOA Name]
+FROM [dbo].[ALL_STREET_FILE] AS C
+INNER JOIN [dbo].[LSOA_MID_PERSON_2020] AS L
+ON C.[LSOA code] = L.[LSOA Code]
+WHERE C.[Crime type] = 'ANTISOCIAL BEHAVIOUR' AND L.[LSOA Name] LIKE 'SALFORD'
+
+CREATE UNIQUE CLUSTERED INDEX idx_id ON VEHICLE_CRIME(ID)
+GO
+CREATE UNIQUE CLUSTERED INDEX idx_id ON ANTISOCIAL(ID)
+GO
